@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#fac7e1" />
+  <title>Agenda · Samara F. Krevei</title>
+  <link rel="stylesheet" href="agenda.css" />
+</head>
+<body>
+  <main id="login-screen" class="login-screen">
+    <section class="login-card">
+      <div class="brand"><span class="brand-mark">SK</span><span>Samara F. Krevei<small>Agenda profissional</small></span></div>
+      <p class="eyebrow">ÁREA EXCLUSIVA</p><h1>Bem-vinda de volta.</h1>
+      <p class="muted">Entre para organizar seus atendimentos.</p>
+      <form id="login-form" class="form-stack">
+        <label>Login<input name="username" autocomplete="username" required value="samarafkrevei" /></label>
+        <label>Senha<input name="password" type="password" autocomplete="current-password" required /></label>
+        <p id="login-error" class="error" role="alert"></p>
+        <button class="button primary" type="submit">Entrar <span>→</span></button>
+      </form>
+      <a class="back-link" href="index.html">← Voltar ao site</a>
+    </section>
+  </main>
+
+  <div id="app" class="app-shell hidden">
+    <header class="topbar">
+      <a class="brand" href="#"><span class="brand-mark">SK</span><span>Samara F. Krevei<small>Agenda profissional</small></span></a>
+      <div class="top-actions"><span class="today-pill" id="today-label"></span><button id="settings-button" class="icon-button" aria-label="Configurações" title="Configurações">⚙</button><button id="logout-button" class="logout-button">Sair</button></div>
+    </header>
+    <section class="welcome-row"><div><p class="eyebrow">PAINEL DA PROFISSIONAL</p><h1>Olá, Samara<span>.</span></h1><p class="muted">Sua rotina de atendimentos, em um só lugar.</p></div><button id="new-appointment-button" class="button primary">Novo agendamento <span>＋</span></button></section>
+    <nav class="tabs" aria-label="Seções da agenda">
+      <button class="tab active" data-tab="clients"><span>01</span> Clientes</button>
+      <button class="tab" data-tab="calendar"><span>02</span> Agenda</button>
+      <button class="tab" data-tab="finance"><span>03</span> Financeiro</button>
+    </nav>
+
+    <section id="tab-clients" class="tab-panel active">
+      <div class="panel-heading"><div><p class="eyebrow">RELACIONAMENTO</p><h2>Clientes</h2><p class="muted">Sua lista organizada em ordem alfabética.</p></div><button class="button secondary" id="add-client-button">＋ Cadastrar cliente</button></div>
+      <div class="search-row"><label class="search-box"><span>⌕</span><input id="client-search" type="search" placeholder="Pesquisar por nome ou telefone" /></label><span id="client-count" class="count-label"></span></div>
+      <div id="client-list" class="client-list"></div>
+      <div id="clients-empty" class="empty-state hidden"><span class="empty-icon">♡</span><h3>Nenhuma cliente cadastrada</h3><p>Cadastre a primeira para começar a organizar os atendimentos.</p></div>
+    </section>
+
+    <section id="tab-calendar" class="tab-panel">
+      <div class="panel-heading"><div><p class="eyebrow">SEUS HORÁRIOS</p><h2>Agenda</h2><p class="muted">Selecione um dia para consultar horários ou marcar uma sessão.</p></div><div class="calendar-controls"><button id="prev-month" class="icon-button" aria-label="Mês anterior">‹</button><strong id="month-label"></strong><button id="next-month" class="icon-button" aria-label="Próximo mês">›</button></div></div>
+      <div class="calendar-card"><div class="calendar-legend"><span><i class="legend-dot free"></i> Disponível</span><span><i class="legend-dot booked"></i> Com consulta</span><span><i class="legend-dot closed"></i> Sem atendimento</span></div><div class="calendar-grid" id="calendar-grid"></div></div>
+      <div class="day-summary" id="day-summary"><div><p class="eyebrow">PRÓXIMO PASSO</p><h3>Escolha uma data no calendário</h3><p class="muted">Os horários disponíveis aparecem ao selecionar o dia.</p></div></div>
+    </section>
+
+    <section id="tab-finance" class="tab-panel">
+      <div class="panel-heading"><div><p class="eyebrow">ACOMPANHAMENTO</p><h2>Financeiro</h2><p class="muted">Visão das consultas realizadas, próximas sessões e parcelas.</p></div></div>
+      <div class="finance-grid"><article class="finance-card highlight"><div class="finance-card-top"><span>Receita de consultas</span><span class="finance-icon">↗</span></div><strong id="finance-total">R$ 0,00</strong><small id="finance-month-label">Mês anterior</small></article><article class="finance-card"><div class="finance-card-top"><span>Próximos atendimentos</span><span class="finance-icon pale">◷</span></div><strong id="upcoming-count">0</strong><small>Consultas agendadas</small></article><article class="finance-card"><div class="finance-card-top"><span>Parcelas futuras</span><span class="finance-icon pale">◇</span></div><strong id="debts-total">R$ 0,00</strong><small>Valores previstos para receber</small></article></div>
+      <div class="finance-chart-card"><div class="subheading"><div><p class="eyebrow">HISTÓRICO</p><h3>Consultas por mês</h3></div><span class="chart-note">Valores agendados em consultas realizadas</span></div><div id="finance-chart" class="chart"></div></div>
+      <div class="finance-lists"><article class="list-card"><div class="subheading"><div><p class="eyebrow">AGENDA</p><h3>Próximas consultas</h3></div><span class="list-count" id="upcoming-list-count">0</span></div><div id="upcoming-list" class="money-list"></div></article><article class="list-card"><div class="subheading"><div><p class="eyebrow">A RECEBER</p><h3>Parcelas futuras</h3></div><span class="list-count" id="debts-list-count">0</span></div><div id="debts-list" class="money-list"></div></article></div>
+    </section>
+    <footer class="app-footer"><span>Samara F. Krevei · Agenda profissional</span><span>Dados acessíveis somente após login.</span></footer>
+  </div>
+
+  <div id="modal-backdrop" class="modal-backdrop hidden"><section id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" id="modal-close" aria-label="Fechar">×</button><div id="modal-content"></div></section></div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="agenda.js" defer></script>
+</body>
+</html>

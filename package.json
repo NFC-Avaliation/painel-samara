@@ -1,0 +1,16 @@
+{
+  "name": "agenda-samara-microderme",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node agenda-server.js",
+    "dev": "node agenda-server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.95.0"
+  },
+  "engines": {
+    "node": ">=22.5"
+  }
+}
