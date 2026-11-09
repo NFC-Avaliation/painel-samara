@@ -7,7 +7,7 @@ create table if not exists public.clients (
   phone text not null,
   first_contact date,
   regions jsonb not null default '[]'::jsonb,
-  treatment_type text not null check (treatment_type in ('Estrias', 'Cicatriz')),
+  treatment_type text not null check (treatment_type in ('Estrias', 'Cicatriz', 'Estrias e cicatrizes')),
   notes text not null default '',
   created_at timestamptz not null default now(),
   constraint clients_regions_array check (jsonb_typeof(regions) = 'array')

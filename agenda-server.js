@@ -111,14 +111,14 @@ async function route(req, res) {
       }
       if (url.pathname === '/api/clients' && req.method === 'POST') {
         let b; try { b=await readBody(req); } catch { return json(res,400,{error:'Dados inválidos.'}); }
-        if (!b.full_name?.trim() || !b.phone?.trim() || !['Estrias','Cicatriz'].includes(b.treatment_type)) return json(res,400,{error:'Preencha nome, WhatsApp e tipo de tratamento.'});
+        if (!b.full_name?.trim() || !b.phone?.trim() || !['Estrias','Cicatriz','Estrias e cicatrizes'].includes(b.treatment_type)) return json(res,400,{error:'Preencha nome, WhatsApp e tipo de tratamento.'});
         const { data,error }=await db.from('clients').insert(clientPayload(b)).select('id').single();
         if(error) throw error; return json(res,201,{id:data.id});
       }
       const clientMatch=url.pathname.match(/^\/api\/clients\/(\d+)$/);
       if (clientMatch && req.method === 'PATCH') {
         let b; try { b=await readBody(req); } catch { return json(res,400,{error:'Dados inválidos.'}); }
-        if (!b.full_name?.trim() || !b.phone?.trim() || !['Estrias','Cicatriz'].includes(b.treatment_type)) return json(res,400,{error:'Preencha os campos obrigatórios.'});
+        if (!b.full_name?.trim() || !b.phone?.trim() || !['Estrias','Cicatriz','Estrias e cicatrizes'].includes(b.treatment_type)) return json(res,400,{error:'Preencha os campos obrigatórios.'});
         const { data,error }=await db.from('clients').update(clientPayload(b)).eq('id',clientMatch[1]).select('id').maybeSingle();
         if(error) throw error; return data?json(res,200,{ok:true}):json(res,404,{error:'Cliente não encontrada.'});
       }

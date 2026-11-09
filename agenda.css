@@ -3,3 +3,10 @@
 @media(max-width:390px){.app-shell{width:calc(100% - 22px)}.welcome-row{gap:8px}.welcome-row h1{font-size:31px}.welcome-row>.button{gap:7px;padding:0 10px;font-size:10px}.tab{font-size:10px}.calendar-day{min-height:42px}.calendar-legend{gap:7px}.calendar-legend span{gap:5px}}
 
 .day-time-list{display:grid;gap:7px;margin-top:17px}.day-time-row{display:grid;grid-template-columns:72px minmax(0,1fr) auto;align-items:center;gap:12px;padding:9px 11px;border:1px solid #f0e1e9;border-radius:12px;background:rgba(255,255,255,.78)}.time-label{color:#76566c;font-size:12px;font-weight:800}.time-free{color:#8d7a88;font-size:12px}.occupied-label{padding:6px 8px;border-radius:99px;background:#e5f7ed;color:#187447;font-size:9px;font-weight:800}.day-client-link{display:flex;min-width:0;flex-direction:column;align-items:flex-start;padding:0;border:0;background:transparent;text-align:left;cursor:pointer}.day-client-link strong{overflow:hidden;max-width:100%;color:var(--berry-dark);font-size:12px;text-overflow:ellipsis;white-space:nowrap}.day-client-link small{margin-top:4px;color:#17824f;font-size:9px}.closed-notice{display:flex;align-items:center;gap:10px;padding:17px;border:1px solid #f0d8dd;border-radius:13px;background:#fff6f7;color:#8c6570;font-size:12px}@media(max-width:760px){.day-time-row{grid-template-columns:58px minmax(0,1fr) auto;gap:7px;padding:8px}.time-free{font-size:10px}.day-client-link strong{font-size:11px}.day-client-link small{font-size:8px}.day-time-row .slot-button{min-height:36px;padding-inline:8px;font-size:10px}.occupied-label{font-size:8px;padding:5px 6px}}
+
+/* Identidade da agenda e indicação da seção selecionada. */
+.brand-mark{flex-shrink:0;overflow:hidden}
+.brand-mark img{display:block;width:29px;height:29px;object-fit:contain}
+.tabs .tab{border:2px solid transparent}
+.tabs .tab.active{border-color:var(--blue);box-shadow:none}
+@media(max-width:760px){.brand-mark img{width:25px;height:25px}}

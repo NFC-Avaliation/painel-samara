@@ -10,7 +10,7 @@
 <body>
   <main id="login-screen" class="login-screen">
     <section class="login-card">
-      <div class="brand"><span class="brand-mark">SK</span><span>Samara F. Krevei<small>Agenda profissional</small></span></div>
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><img src="assets/agenda-monograma.svg" alt="" /></span><span>Samara F. Krevei<small>Agenda profissional</small></span></div>
       <p class="eyebrow">ÁREA EXCLUSIVA</p><h1>Bem-vinda de volta.</h1>
       <p class="muted">Entre para organizar seus atendimentos.</p>
       <form id="login-form" class="form-stack">
@@ -25,14 +25,14 @@
 
   <div id="app" class="app-shell hidden">
     <header class="topbar">
-      <a class="brand" href="#"><span class="brand-mark">SK</span><span>Samara F. Krevei<small>Agenda profissional</small></span></a>
+      <a class="brand" href="#"><span class="brand-mark" aria-hidden="true"><img src="assets/agenda-monograma.svg" alt="" /></span><span>Samara F. Krevei<small>Agenda profissional</small></span></a>
       <div class="top-actions"><span class="today-pill" id="today-label"></span><button id="settings-button" class="icon-button" aria-label="Configurações" title="Configurações">⚙</button><button id="logout-button" class="logout-button">Sair</button></div>
     </header>
-    <section class="welcome-row"><div><p class="eyebrow">PAINEL DA PROFISSIONAL</p><h1>Olá, Samara<span>.</span></h1><p class="muted">Sua rotina de atendimentos, em um só lugar.</p></div><button id="new-appointment-button" class="button primary">Novo agendamento <span>＋</span></button></section>
+    <section class="welcome-row"><div><p class="eyebrow">PAINEL DA PROFISSIONAL</p><h1>Olá, Samara<span>.</span></h1><p class="muted">Sua rotina de atendimentos, em um só lugar.</p></div></section>
     <nav class="tabs" aria-label="Seções da agenda">
-      <button class="tab active" data-tab="clients"><span>01</span> Clientes</button>
-      <button class="tab" data-tab="calendar"><span>02</span> Agenda</button>
-      <button class="tab" data-tab="finance"><span>03</span> Financeiro</button>
+      <button class="tab active" data-tab="clients" aria-pressed="true">Clientes</button>
+      <button class="tab" data-tab="calendar" aria-pressed="false">Agenda</button>
+      <button class="tab" data-tab="finance" aria-pressed="false">Financeiro</button>
     </nav>
 
     <section id="tab-clients" class="tab-panel active">
