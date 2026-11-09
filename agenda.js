@@ -17,8 +17,40 @@ async function refresh(){const today=new Date();$('#today-label').textContent=ne
 async function loadAppointments(){const first=new Date(state.month.getFullYear(),state.month.getMonth(),1);const last=new Date(state.month.getFullYear(),state.month.getMonth()+1,0);const from=localDate(new Date(state.month.getFullYear()-1,0,1));const to=localDate(new Date(state.month.getFullYear()+1,11,31));state.appointments=await api(`/api/appointments?from=${from}&to=${to}`);}
 function activateTab(name){$$('.tab').forEach(b=>{const active=b.dataset.tab===name;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});$$('.tab-panel').forEach(p=>p.classList.toggle('active',p.id===`tab-${name}`));if(name==='calendar')renderCalendar();if(name==='finance')renderFinance();}
 function renderClients(){const q=$('#client-search').value.trim().toLocaleLowerCase('pt-BR');const list=state.clients.filter(c=>c.full_name.toLocaleLowerCase('pt-BR').includes(q)||c.phone.includes(q));$('#client-count').textContent=`${list.length} ${list.length===1?'cliente':'clientes'}`;$('#clients-empty').classList.toggle('hidden',list.length>0);$('#client-list').innerHTML=list.map(c=>`<article class="client-row" data-id="${c.id}" tabindex="0"><div class="client-main"><span class="avatar">${esc(c.full_name.trim().split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase())}</span><div><strong>${esc(c.full_name)}</strong><small>${esc(c.phone)}</small></div></div><span class="tag">${esc(c.treatment_type)}</span><span class="row-arrow">›</span></article>`).join('');$$('.client-row').forEach(row=>{row.addEventListener('click',()=>openClient(Number(row.dataset.id)));row.addEventListener('keydown',e=>{if(e.key==='Enter')openClient(Number(row.dataset.id))})});}
-function showModal(html,{wide=false}={}){$('#modal').classList.toggle('wide',wide);$('#modal-content').innerHTML=html;$('#modal-backdrop').classList.remove('hidden');$('#modal-close').focus();}
-function closeModal(){$('#modal-backdrop').classList.add('hidden');$('#modal-content').innerHTML='';}
+// Evita que o fechamento de uma janela esconda outra aberta logo depois.
+let modalCloseTimer;
+const reducedMotion=()=>window.matchMedia?.('(prefers-reduced-motion: reduce)').matches===true;
+function showModal(html,{wide=false}={}){
+  clearTimeout(modalCloseTimer);
+  const backdrop=$('#modal-backdrop'),content=$('#modal-content');
+  const alreadyOpen=!backdrop.classList.contains('hidden');
+  backdrop.classList.remove('is-closing');
+  backdrop.inert=false;
+  $('#modal').classList.toggle('wide',wide);
+  content.getAnimations?.().forEach(animation=>animation.cancel());
+  content.innerHTML=html;
+  backdrop.classList.remove('hidden');
+  // Suaviza também a passagem da ficha para o formulário na mesma janela.
+  if(alreadyOpen&&!reducedMotion())content.animate?.(
+    [{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],
+    {duration:220,easing:'cubic-bezier(.22,1,.36,1)'}
+  );
+  $('#modal-close').focus();
+}
+function closeModal(){
+  const backdrop=$('#modal-backdrop');
+  if(backdrop.classList.contains('hidden')||backdrop.classList.contains('is-closing'))return;
+  const finish=()=>{
+    backdrop.classList.add('hidden');
+    backdrop.classList.remove('is-closing');
+    backdrop.inert=false;
+    $('#modal-content').innerHTML='';
+  };
+  if(reducedMotion()){finish();return;}
+  backdrop.inert=true;
+  backdrop.classList.add('is-closing');
+  modalCloseTimer=setTimeout(finish,180);
+}
 function clientDetails(c){const regions=c.regions?.length?c.regions.join(', '):'Não informado';return `<p class="eyebrow">FICHA DA CLIENTE</p><h2 id="modal-title">${esc(c.full_name)}</h2><p class="modal-intro">Informações do cadastro e observações de atendimento.</p><div class="detail-grid"><div class="detail"><small>WhatsApp</small><a class="whatsapp-link" href="${waHref(c.phone)}" target="_blank" rel="noopener">${esc(c.phone)} ↗</a></div><div class="detail"><small>Primeiro contato</small><strong>${c.first_contact?dateLabel(c.first_contact):'Não informado'}</strong></div><div class="detail"><small>Região a tratar</small><strong>${esc(regions)}</strong></div><div class="detail"><small>Tipo de tratamento</small><strong>${esc(c.treatment_type)}</strong></div><div class="detail detail-wide"><small>Observações importantes</small><strong>${esc(c.notes||'Nenhuma observação registrada.')}</strong></div></div><div class="modal-actions"><button class="button secondary" id="edit-client-button">Editar cadastro</button><a class="button primary" href="${waHref(c.phone)}" target="_blank" rel="noopener">Abrir WhatsApp <span>↗</span></a></div>`;}
 async function openClient(id){try{const c=await api(`/api/clients/${id}`);state.activeClient=c;showModal(clientDetails(c));$('#edit-client-button').onclick=()=>openClientForm(c);}catch(e){toast(e.message)}}
 function clientForm(c={}){const regions=['Barriga','Pernas','Seios','Glúteos','Braços','Costas','Outra'];const selected=new Set(c.regions||[]);return `<p class="eyebrow">CADASTRO DE CLIENTE</p><h2 id="modal-title">${c.id?'Editar cliente':'Nova cliente'}</h2><p class="modal-intro">Os campos com * são obrigatórios.</p><form id="client-form"><div class="form-grid"><label class="field full">Nome completo *<input name="full_name" required value="${esc(c.full_name||'')}" autocomplete="name" /></label><label class="field">Telefone / WhatsApp *<input name="phone" required type="tel" placeholder="(00) 00000-0000" value="${esc(c.phone||'')}" /></label><label class="field">Data do primeiro contato<input name="first_contact" type="date" value="${esc(c.first_contact||'')}" /></label><div class="field full"><span>Região que deseja tratar</span><div class="check-row">${regions.map(r=>`<label class="check-chip"><input type="checkbox" name="regions" value="${r}" ${selected.has(r)?'checked':''}/> ${r}</label>`).join('')}</div></div><label class="field">Tipo de tratamento *<select name="treatment_type" required><option value="">Selecione</option><option ${c.treatment_type==='Estrias'?'selected':''}>Estrias</option><option ${c.treatment_type==='Cicatriz'?'selected':''}>Cicatriz</option><option ${c.treatment_type==='Estrias e cicatrizes'?'selected':''}>Estrias e cicatrizes</option></select></label><label class="field full">Observações importantes<textarea name="notes" placeholder="Anote informações importantes para o atendimento">${esc(c.notes||'')}</textarea></label></div><div class="form-actions"><button type="button" class="button secondary" id="cancel-form">Cancelar</button><button type="submit" class="button primary">Salvar cliente <span>✓</span></button></div></form>`;}

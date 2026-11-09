@@ -10,3 +10,28 @@
 .tabs .tab{border:2px solid transparent}
 .tabs .tab.active{border-color:var(--blue);box-shadow:none}
 @media(max-width:760px){.brand-mark img{width:25px;height:25px}}
+
+/* Movimento leve: troca de abas, entrada de telas e janelas flutuantes. */
+:root{--agenda-ease:cubic-bezier(.22,1,.36,1)}
+.tab{transition:background-color .22s ease,border-color .22s ease,color .22s ease,box-shadow .22s ease}
+.tab-panel.active{animation:agenda-panel-in .32s var(--agenda-ease) both}
+.app-shell:not(.hidden),.login-card{animation:agenda-screen-in .4s var(--agenda-ease) both}
+.modal-backdrop:not(.hidden):not(.is-closing){animation:agenda-overlay-in .22s ease-out both}
+.modal-backdrop:not(.hidden):not(.is-closing) .modal{animation:agenda-dialog-in .32s var(--agenda-ease) both}
+.modal-backdrop.is-closing{animation:agenda-overlay-out .18s ease-in both;pointer-events:none}
+.modal-backdrop.is-closing .modal{animation:agenda-dialog-out .18s ease-in both}
+@keyframes agenda-panel-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes agenda-screen-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes agenda-overlay-in{from{opacity:0}to{opacity:1}}
+@keyframes agenda-overlay-out{from{opacity:1}to{opacity:0}}
+@keyframes agenda-dialog-in{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes agenda-dialog-out{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(10px) scale(.99)}}
+@media(max-width:760px){
+  @keyframes agenda-dialog-in{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes agenda-dialog-out{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(20px)}}
+}
+@media(prefers-reduced-motion:reduce){
+  .tab,.button,.client-row,.calendar-day,.toast{transition:none!important}
+  .tab-panel.active,.app-shell:not(.hidden),.login-card,
+  .modal-backdrop,.modal-backdrop .modal{animation:none!important}
+}

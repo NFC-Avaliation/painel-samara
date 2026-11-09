@@ -1,0 +1,18 @@
+ANIMAÇÕES DA AGENDA
+
+Para quem já aplicou as correções anteriores, substitua apenas:
+- agenda.css
+- agenda.js
+
+Não precisa executar outro SQL nem mudar configurações no Supabase ou Render. Após enviar os dois arquivos ao repositório e publicar a nova versão, atualize a página com Ctrl+F5.
+
+O que mudou:
+- Entrada suave do conteúdo ao trocar entre Clientes, Agenda e Financeiro.
+- Transição de cor e contorno da aba selecionada.
+- Entrada suave do painel e da tela de login.
+- Fundo e janela animados na abertura e no fechamento.
+- Transição entre ficha e formulário dentro da mesma janela.
+- No celular, as janelas sobem e descem suavemente.
+- Respeita a preferência do sistema por movimento reduzido.
+
+Verificação local: os fluxos de cadastro e edição continuam passando. Foram testados fechamento, cliques repetidos e reabertura rápida de janelas, além da preferência por movimento reduzido. Não houve publicação no site nem teste visual da página completa no navegador neste ambiente.
