@@ -45,3 +45,12 @@
 .button:focus-visible,.delete-appointment-button:focus-visible{outline:3px solid rgba(6,75,255,.35);outline-offset:2px}
 @media(max-width:560px){.modal-actions .danger{flex:1 0 100%}.day-time-row{grid-template-columns:48px minmax(0,1fr) auto;gap:7px;padding:8px}.delete-appointment-button{min-height:32px;padding:0 8px;font-size:9px}}
 @media(prefers-reduced-motion:reduce){.delete-appointment-button,.button.danger{transition:none!important}}
+
+/* Evita o zoom automático do Safari ao focar campos no celular. */
+@media(max-width:760px){
+  html,body{width:100%;max-width:100%;overflow-x:clip;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{min-width:0}
+  .form-stack input,.field input,.field select,.field textarea,.search-box input{font-size:16px!important}
+  .app-shell,.login-screen,.modal-backdrop{max-width:100%;min-width:0}
+  .modal{max-width:100%;min-width:0}
+}
