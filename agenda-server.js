@@ -122,6 +122,13 @@ async function route(req, res) {
         const { data,error }=await db.from('clients').update(clientPayload(b)).eq('id',clientMatch[1]).select('id').maybeSingle();
         if(error) throw error; return data?json(res,200,{ok:true}):json(res,404,{error:'Cliente não encontrada.'});
       }
+      if (clientMatch && req.method === 'DELETE') {
+        const {data:linked,error:lookupError}=await db.from('appointments').select('id').eq('client_id',clientMatch[1]).limit(1);
+        if(lookupError) throw lookupError;
+        if(linked.length) return json(res,409,{error:'Esta cliente possui agendamentos vinculados. Exclua os agendamentos e as parcelas associadas antes de apagar o cadastro.'});
+        const {data,error}=await db.from('clients').delete().eq('id',clientMatch[1]).select('id').maybeSingle();
+        if(error) throw error; return data?json(res,200,{ok:true}):json(res,404,{error:'Cliente não encontrada.'});
+      }
       if (clientMatch && req.method === 'GET') {
         const { data,error }=await db.from('clients').select('*').eq('id',clientMatch[1]).maybeSingle();
         if(error) throw error; return data?json(res,200,data):json(res,404,{error:'Cliente não encontrada.'});
@@ -147,6 +154,10 @@ async function route(req, res) {
         if(!['scheduled','completed','cancelled'].includes(b.status)) return json(res,400,{error:'Status inválido.'});
         const { data,error }=await db.from('appointments').update({status:b.status}).eq('id',appointmentMatch[1]).select('id').maybeSingle();
         if(error) throw error; return data?json(res,200,{ok:true}):json(res,404,{error:'Consulta não encontrada.'});
+      }
+      if(appointmentMatch && req.method==='DELETE') {
+        const {data,error}=await db.from('appointments').delete().eq('id',appointmentMatch[1]).select('id').maybeSingle();
+        if(error) throw error; return data?json(res,200,{ok:true}):json(res,404,{error:'Agendamento não encontrado.'});
       }
       if(url.pathname==='/api/finance'&&req.method==='GET') {
         const today=brazilToday(), firstMonth=new Date(`${today.slice(0,7)}-01T12:00:00`); firstMonth.setMonth(firstMonth.getMonth()-5);

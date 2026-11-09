@@ -42,6 +42,8 @@ Não publique a agenda como Static Site: o login e o acesso protegido ao banco d
 
 - Login protegido por sessão HTTP-only.
 - Cadastro e pesquisa de clientes, com edição e atalho para WhatsApp.
+- Exclusão de agendamentos com confirmação; a consulta removida também sai do financeiro e libera o horário.
+- Exclusão de clientes. Para preservar a integridade do histórico, é preciso excluir primeiro os agendamentos associados.
 - Calendário com horários, bloqueio de fins de semana e feriados nacionais configurados no código.
 - Financeiro com consultas futuras, parcelas previstas e totais mensais.
 - Endereço e chave Pix configuráveis dentro da agenda.

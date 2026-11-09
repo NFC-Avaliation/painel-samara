@@ -35,3 +35,13 @@
   .tab-panel.active,.app-shell:not(.hidden),.login-card,
   .modal-backdrop,.modal-backdrop .modal{animation:none!important}
 }
+
+/* Ações de remoção com confirmação explícita e retorno visual suave. */
+.button.danger{color:#a53d50;background:#fff3f4;border-color:#edc4ca}
+.button.danger:hover{background:#ffe8eb;box-shadow:0 8px 18px rgba(165,61,80,.12)}
+.button:disabled{opacity:.62;cursor:wait;transform:none;box-shadow:none}
+.delete-appointment-button{min-height:34px;padding:0 11px;border:1px solid #edc4ca;border-radius:999px;background:#fff4f5;color:#a53d50;font-size:10px;font-weight:800;transition:background-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.delete-appointment-button:hover{transform:translateY(-1px);background:#ffe8eb;box-shadow:0 5px 12px rgba(165,61,80,.1)}
+.button:focus-visible,.delete-appointment-button:focus-visible{outline:3px solid rgba(6,75,255,.35);outline-offset:2px}
+@media(max-width:560px){.modal-actions .danger{flex:1 0 100%}.day-time-row{grid-template-columns:48px minmax(0,1fr) auto;gap:7px;padding:8px}.delete-appointment-button{min-height:32px;padding:0 8px;font-size:9px}}
+@media(prefers-reduced-motion:reduce){.delete-appointment-button,.button.danger{transition:none!important}}
