@@ -1,14 +1,14 @@
 PAINEL SAMARA — ARQUIVOS PRONTOS PARA SUBSTITUIR
 
-Esta versão libera sábados e domingos para agendamento, adiciona 18:00 e inclui o link do Google Maps na mensagem preparada para o WhatsApp. Feriados cadastrados continuam sem atendimento.
+Esta versão libera sábados e domingos para agendamento, adiciona 18:00, inclui o link do Google Maps na mensagem preparada para o WhatsApp e restaura o botão para excluir agendamentos. Feriados cadastrados continuam sem atendimento.
 
 COMO APLICAR NO REPOSITÓRIO EXISTENTE
 1. Extraia este ZIP.
-2. Copie e substitua, mantendo as pastas, os arquivos agenda.html, agenda.css, agenda.js, agenda-server.js e assets/agenda-monograma.svg no repositório do painel.
+2. Se você já publicou a versão com fins de semana, 18:00 e Maps, copie e substitua apenas agenda.js e agenda.css. Se ainda não publicou essa versão, copie também agenda.html, agenda-server.js e assets/agenda-monograma.svg, mantendo as pastas.
 3. Preserve package.json, arquivos de configuração, variáveis de ambiente e demais arquivos já existentes no repositório.
 4. Faça commit e aguarde o deploy do Render terminar.
 5. Atualize a página da agenda com Ctrl+F5.
 
 Não execute SQL para estes três ajustes. Os arquivos SQL em supabase/ são incluídos para referência e para uma instalação nova; não os execute novamente no banco já configurado.
 
-A mensagem de WhatsApp é aberta para revisão e envio. Ela inclui endereço salvo nas configurações, link do Google Maps, valor e chave Pix.
+A mensagem de WhatsApp é aberta para revisão e envio. Ela inclui endereço salvo nas configurações, link do Google Maps, valor e chave Pix. Para excluir uma consulta, abra o dia e use o botão Excluir ao lado do agendamento; a agenda pedirá confirmação e atualizará os horários e o financeiro.

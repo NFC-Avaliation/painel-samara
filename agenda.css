@@ -9,7 +9,13 @@
 .brand-mark img{display:block;width:29px;height:29px;object-fit:contain}
 .tabs .tab{border:2px solid transparent}
 .tabs .tab.active{border-color:var(--blue);box-shadow:none}
+.appointment-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px}
+.delete-appointment-button{min-height:32px;padding:0 10px;border:1px solid #edc4ca;border-radius:999px;background:#fff3f4;color:#a53d50;font-size:10px;font-weight:800;transition:background-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.delete-appointment-button:hover{transform:translateY(-1px);background:#ffe8eb;box-shadow:0 5px 12px rgba(165,61,80,.1)}
+.delete-appointment-button:disabled{opacity:.62;cursor:wait}
+.delete-appointment-button:focus-visible{outline:3px solid rgba(6,75,255,.35);outline-offset:2px}
 @media(max-width:760px){.brand-mark img{width:25px;height:25px}}
+@media(max-width:760px){.appointment-actions .occupied-label{display:none}.delete-appointment-button{min-height:34px;padding:0 8px;font-size:9px}}
 
 /* Movimento leve: troca de abas, entrada de telas e janelas flutuantes. */
 :root{--agenda-ease:cubic-bezier(.22,1,.36,1)}
