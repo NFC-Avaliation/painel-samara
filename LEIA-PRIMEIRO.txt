@@ -1,23 +1,14 @@
-ATUALIZAÇÃO DA AGENDA — HORÁRIOS E MENSAGEM
+PAINEL SAMARA — ARQUIVOS PRONTOS PARA SUBSTITUIR
 
-O que mudou nesta versão:
-- Sábados e domingos agora ficam disponíveis para agendamento. Os feriados configurados continuam sem atendimento.
-- Incluído o horário das 18h, mantendo os horários existentes das 8h às 11h e das 13h às 17h.
-- A mensagem preparada para o WhatsApp agora inclui o endereço cadastrado, o link do Google Maps do consultório, o valor e a chave Pix.
+Esta versão libera sábados e domingos para agendamento, adiciona 18:00 e inclui o link do Google Maps na mensagem preparada para o WhatsApp. Feriados cadastrados continuam sem atendimento.
 
-Como aplicar no painel existente:
-1. Copie o conteúdo de agenda.js.txt para o arquivo agenda.js do repositório.
-2. Copie o conteúdo de agenda-server.js.txt para o arquivo agenda-server.js do repositório.
-3. Envie os dois arquivos ao GitHub e faça o commit. O Render publicará a atualização.
-4. Após o deploy, atualize o painel no navegador.
+COMO APLICAR NO REPOSITÓRIO EXISTENTE
+1. Extraia este ZIP.
+2. Copie e substitua, mantendo as pastas, os arquivos agenda.html, agenda.css, agenda.js, agenda-server.js e assets/agenda-monograma.svg no repositório do painel.
+3. Preserve package.json, arquivos de configuração, variáveis de ambiente e demais arquivos já existentes no repositório.
+4. Faça commit e aguarde o deploy do Render terminar.
+5. Atualize a página da agenda com Ctrl+F5.
 
-Não é necessário executar SQL nem alterar as variáveis do Render ou configurações do Supabase. A mensagem continua abrindo no WhatsApp para você revisar e enviar.
+Não execute SQL para estes três ajustes. Os arquivos SQL em supabase/ são incluídos para referência e para uma instalação nova; não os execute novamente no banco já configurado.
 
-HISTÓRICO DE ANIMAÇÕES DA AGENDA
-- Entrada suave do conteúdo ao trocar entre Clientes, Agenda e Financeiro.
-- Transição de cor e contorno da aba selecionada.
-- Entrada suave do painel e da tela de login.
-- Fundo e janela animados na abertura e no fechamento.
-- Transição entre ficha e formulário dentro da mesma janela.
-- No celular, as janelas sobem e descem suavemente.
-- Respeita a preferência do sistema por movimento reduzido.
+A mensagem de WhatsApp é aberta para revisão e envio. Ela inclui endereço salvo nas configurações, link do Google Maps, valor e chave Pix.

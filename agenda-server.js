@@ -12,7 +12,7 @@ const supabaseKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERV
 if (!supabaseUrl || !supabaseKey) throw new Error('Configure SUPABASE_URL e SUPABASE_SECRET_KEY no ambiente do servidor.');
 const db = createClient(supabaseUrl, supabaseKey, { auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false } });
 
-const allowedSlots = new Set(['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00','17:00']);
+const allowedSlots = new Set(['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00','17:00','18:00']);
 const brazilToday = () => new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.png':'image/png', '.jpg':'image/jpeg', '.webp':'image/webp', '.svg':'image/svg+xml' };
 const loginAttempts = new Map();
@@ -29,8 +29,7 @@ function easterSunday(year) {
   return new Date(Date.UTC(year, month - 1, day));
 }
 function closedDay(iso) {
-  const date = new Date(`${iso}T12:00:00Z`), year = date.getUTCFullYear(), weekday = date.getUTCDay();
-  if (weekday === 0 || weekday === 6) return true;
+  const date = new Date(`${iso}T12:00:00Z`), year = date.getUTCFullYear();
   const fixed = new Set([`${year}-01-01`,`${year}-04-21`,`${year}-05-01`,`${year}-09-07`,`${year}-10-12`,`${year}-11-02`,`${year}-11-15`,`${year}-11-20`,`${year}-12-25`]);
   if (fixed.has(iso)) return true;
   const easter = easterSunday(year);
@@ -122,13 +121,6 @@ async function route(req, res) {
         const { data,error }=await db.from('clients').update(clientPayload(b)).eq('id',clientMatch[1]).select('id').maybeSingle();
         if(error) throw error; return data?json(res,200,{ok:true}):json(res,404,{error:'Cliente não encontrada.'});
       }
-      if (clientMatch && req.method === 'DELETE') {
-        const {data:linked,error:lookupError}=await db.from('appointments').select('id').eq('client_id',clientMatch[1]).limit(1);
-        if(lookupError) throw lookupError;
-        if(linked.length) return json(res,409,{error:'Esta cliente possui agendamentos vinculados. Exclua os agendamentos e as parcelas associadas antes de apagar o cadastro.'});
-        const {data,error}=await db.from('clients').delete().eq('id',clientMatch[1]).select('id').maybeSingle();
-        if(error) throw error; return data?json(res,200,{ok:true}):json(res,404,{error:'Cliente não encontrada.'});
-      }
       if (clientMatch && req.method === 'GET') {
         const { data,error }=await db.from('clients').select('*').eq('id',clientMatch[1]).maybeSingle();
         if(error) throw error; return data?json(res,200,data):json(res,404,{error:'Cliente não encontrada.'});
@@ -140,7 +132,7 @@ async function route(req, res) {
       }
       if (url.pathname === '/api/appointments' && req.method === 'POST') {
         let b; try { b=await readBody(req); } catch { return json(res,400,{error:'Dados inválidos.'}); }
-        if (!b.client_id || !isValidDate(b.date) || !allowedSlots.has(String(b.time).slice(0,5)) || closedDay(b.date) || b.date<brazilToday() || !Number.isInteger(b.amount_cents) || b.amount_cents<=0) return json(res,400,{error:'Confira cliente, data, horário e valor. Finais de semana e feriados não têm atendimento.'});
+        if (!b.client_id || !isValidDate(b.date) || !allowedSlots.has(String(b.time).slice(0,5)) || closedDay(b.date) || b.date<brazilToday() || !Number.isInteger(b.amount_cents) || b.amount_cents<=0) return json(res,400,{error:'Confira cliente, data, horário e valor. Feriados não têm atendimento.'});
         const parts=Number(b.installments)===2?2:1;
         if(parts===2 && (!isValidDate(b.second_due_date)||b.second_due_date<=b.date||!Number.isInteger(b.second_amount_cents)||b.second_amount_cents<=0)) return json(res,400,{error:'Informe uma data posterior à consulta e um valor válido para a segunda parcela.'});
         const payload={client_id:Number(b.client_id),date:b.date,time:`${String(b.time).slice(0,5)}:00`,amount_cents:b.amount_cents,installments:parts,second_due_date:parts===2?b.second_due_date:null,second_amount_cents:parts===2?b.second_amount_cents:null};
@@ -154,10 +146,6 @@ async function route(req, res) {
         if(!['scheduled','completed','cancelled'].includes(b.status)) return json(res,400,{error:'Status inválido.'});
         const { data,error }=await db.from('appointments').update({status:b.status}).eq('id',appointmentMatch[1]).select('id').maybeSingle();
         if(error) throw error; return data?json(res,200,{ok:true}):json(res,404,{error:'Consulta não encontrada.'});
-      }
-      if(appointmentMatch && req.method==='DELETE') {
-        const {data,error}=await db.from('appointments').delete().eq('id',appointmentMatch[1]).select('id').maybeSingle();
-        if(error) throw error; return data?json(res,200,{ok:true}):json(res,404,{error:'Agendamento não encontrado.'});
       }
       if(url.pathname==='/api/finance'&&req.method==='GET') {
         const today=brazilToday(), firstMonth=new Date(`${today.slice(0,7)}-01T12:00:00`); firstMonth.setMonth(firstMonth.getMonth()-5);
