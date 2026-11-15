@@ -1,0 +1,23 @@
+ATUALIZAÇÃO DA AGENDA — SAMARA F. KREVEI
+
+ALTERAÇÕES
+1. Corrigido o cadastro de cliente nova e o botão Cancelar: o formulário agora funciona mesmo sem um cadastro anterior/id.
+2. Adicionada a opção "Estrias e cicatrizes" no cadastro, na edição, no servidor e no banco.
+3. Colocado o monograma original SK no círculo do cabeçalho e do login, na cor rosa da marca (#a5467c), preservando seu desenho.
+4. Removido o botão global "Novo agendamento". Para agendar, abra Agenda, clique em um dia disponível e depois em Marcar.
+5. Removidos 01/02/03 das abas; a selecionada recebe contorno azul.
+6. Atualizar o calendário ou entrar na aba Agenda não abre mais uma janela. Os horários aparecem ao clicar em um dia disponível.
+
+COMO ATUALIZAR O PROJETO EXISTENTE
+1. No SQL Editor do Supabase, execute o arquivo supabase/20261108_tratamento_combinado.sql. Essa atualização mantém os cadastros e libera o tratamento combinado. Para o banco já existente, use essa migração, pois apenas executar schema.sql não altera a restrição antiga.
+2. No repositório do painel, substitua agenda.html, agenda.css, agenda.js e agenda-server.js e adicione assets/agenda-monograma.svg na pasta assets. Mantenha o caminho desse arquivo.
+3. Atualize também supabase/schema.sql para manter a definição do projeto atualizada. Esse schema completo serve para criar um banco novo.
+4. Publique uma nova versão do Web Service no Render com os arquivos atualizados e atualize a página do navegador (Ctrl+F5).
+
+Os outros arquivos do site público permanecem iguais aos do pacote anterior. As variáveis privadas já configuradas no Render permanecem como estão.
+
+VERIFICAÇÃO
+Passaram testes locais dos fluxos de cadastro novo, cancelar, editar, falha do servidor preservando formulário, seleção combinada, alternância de abas, abertura do dia por clique e validação POST/PATCH do servidor.
+A migração foi executada em PostgreSQL local de teste: preservou registros existentes, aceitou o tratamento combinado e continuou recusando valores inválidos. Foi testado também um banco novo com o schema atualizado.
+O monograma foi renderizado e inspecionado. A prévia da página completa no navegador não pôde ser executada neste ambiente.
+Não houve publicação no Render, acesso ao banco de produção nem envio de WhatsApp.

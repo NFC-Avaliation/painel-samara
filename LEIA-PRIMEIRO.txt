@@ -1,0 +1,23 @@
+ATUALIZAÇÃO DA AGENDA — HORÁRIOS E MENSAGEM
+
+O que mudou nesta versão:
+- Sábados e domingos agora ficam disponíveis para agendamento. Os feriados configurados continuam sem atendimento.
+- Incluído o horário das 18h, mantendo os horários existentes das 8h às 11h e das 13h às 17h.
+- A mensagem preparada para o WhatsApp agora inclui o endereço cadastrado, o link do Google Maps do consultório, o valor e a chave Pix.
+
+Como aplicar no painel existente:
+1. Copie o conteúdo de agenda.js.txt para o arquivo agenda.js do repositório.
+2. Copie o conteúdo de agenda-server.js.txt para o arquivo agenda-server.js do repositório.
+3. Envie os dois arquivos ao GitHub e faça o commit. O Render publicará a atualização.
+4. Após o deploy, atualize o painel no navegador.
+
+Não é necessário executar SQL nem alterar as variáveis do Render ou configurações do Supabase. A mensagem continua abrindo no WhatsApp para você revisar e enviar.
+
+HISTÓRICO DE ANIMAÇÕES DA AGENDA
+- Entrada suave do conteúdo ao trocar entre Clientes, Agenda e Financeiro.
+- Transição de cor e contorno da aba selecionada.
+- Entrada suave do painel e da tela de login.
+- Fundo e janela animados na abertura e no fechamento.
+- Transição entre ficha e formulário dentro da mesma janela.
+- No celular, as janelas sobem e descem suavemente.
+- Respeita a preferência do sistema por movimento reduzido.
